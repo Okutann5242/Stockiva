@@ -1,0 +1,9 @@
+{% extends 'accounts/base_auth.html' %}
+{% block content %}
+    <div class="text-center">
+        <i class="bi bi-send-check text-success" style="font-size: 3rem;"></i>
+        <h4 class="fw-bold mt-3">Mail Gönderildi</h4>
+        <p class="text-muted small">Şifre sıfırlama bağlantısı mail kutunuza gönderildi. Lütfen kontrol edin.</p>
+        <a href="{% url 'login' %}" class="btn btn-outline-primary w-100 btn-auth mt-2">Giriş Yap</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'accounts/base_auth.html' %}
+{% block title %}Giriş - Stockiva{% endblock %}
+{% block content %}
+    <h4 class="text-center fw-bold mb-4">Hoş Geldiniz</h4>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="small fw-bold text-muted">Kullanıcı Adı</label>
+            <input type="text" name="username" class="form-control" required>
+        </div>
+        <div class="mb-4">
+            <label class="small fw-bold text-muted">Şifre</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 btn-auth shadow">Giriş Yap</button>
+    </form>
+    <div class="text-center mt-4 small">
+        <div class="text-end mb-3">
+    <a href="{% url 'password_reset' %}" class="text-decoration-none small text-primary fw-bold">Şifremi Unuttum</a>
+</div>
+        <span class="mx-2 text-muted">|</span>
+        <a href="{% url 'register' %}" class="text-decoration-none fw-bold">Kayıt Ol</a>
+    </div>
+{% endblock %}

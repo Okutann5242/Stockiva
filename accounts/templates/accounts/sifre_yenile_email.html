@@ -1,0 +1,13 @@
+Merhaba {{ user.get_username }},
+
+Stockiva hesabınız için bir şifre sıfırlama talebinde bulundunuz. 
+Yeni şifrenizi belirlemek için lütfen aşağıdaki güvenli bağlantıya tıklayın:
+
+http://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}
+
+Bu bağlantı güvenlik gereği tek kullanımlıktır. Eğer bu talebi siz yapmadıysanız, lütfen bu e-postayı dikkate almayın; hesabınız güvende kalacaktır.
+
+Sorularınız için bizimle her zaman iletişime geçebilirsiniz.
+
+Teşekkürler,
+Stockiva Ekibi

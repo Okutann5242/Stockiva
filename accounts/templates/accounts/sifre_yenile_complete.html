@@ -1,0 +1,9 @@
+{% extends 'accounts/base_auth.html' %}
+{% block content %}
+    <div class="text-center">
+        <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+        <h4 class="fw-bold mt-3">Şifre Değiştirildi</h4>
+        <p class="text-muted small">Yeni şifrenizle artık giriş yapabilirsiniz.</p>
+        <a href="{% url 'login' %}" class="btn btn-primary w-100 btn-auth mt-2 shadow">Giriş Yap</a>
+    </div>
+{% endblock %}

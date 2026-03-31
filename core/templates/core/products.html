@@ -1,0 +1,168 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Ürün Yönetimi - Stockiva{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold mb-0">Ürün Portföyü ve Stok Hızı</h3>
+            <p class="text-muted mb-0">Tüm ürünlerinizin maliyet, kârlılık ve tükenme hızı analizleri.</p>
+        </div>
+        <div>
+            <button class="btn btn-primary fw-bold shadow-sm rounded-pill px-4" data-bs-toggle="modal" data-bs-target="#addProductModal">
+                <i class="bi bi-plus-lg me-2"></i>Yeni Ürün Ekle
+            </button>
+        </div>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0 rounded-3 mb-4">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="table-light">
+                    <tr class="text-uppercase small fw-bold text-muted" style="letter-spacing: 0.5px;">
+                        <th class="ps-4">Ürün Bilgisi</th>
+                        <th>Stok Durumu</th>
+                        <th>Maliyet / Satış</th>
+                        <th>Kâr Marjı</th>
+                        <th>Satış Hızı</th>
+                        <th>Tükenme Tahmini</th>
+                        <th class="text-end pe-4">Aksiyon</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in product_data %}
+                    <tr>
+                        <td class="ps-4">
+                            <div class="d-flex align-items-center">
+                                <div class="bg-primary bg-opacity-10 p-2 rounded-3 me-3 text-primary">
+                                    <i class="bi bi-box fs-5"></i>
+                                </div>
+                                <span class="fw-bold">{{ item.product.name }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            {% if item.product.stock_quantity <= 5 %}
+                                <span class="badge bg-danger rounded-pill px-3 py-2 border border-danger border-opacity-25 shadow-sm">{{ item.product.stock_quantity }} Adet</span>
+                            {% else %}
+                                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3 py-2 border border-success border-opacity-25">{{ item.product.stock_quantity }} Adet</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="small text-muted">Maliyet: ₺{{ item.product.cost_price|floatformat:2 }}</div>
+                            <div class="fw-semibold">Fiyat: ₺{{ item.product.selling_price|floatformat:2 }}</div>
+                        </td>
+                        <td>
+                            <div class="small text-muted mb-1">Net: ₺{{ item.net_profit }}</div>
+                            {% if item.profit_margin > 20 %}
+                                <span class="text-success fw-bold small"><i class="bi bi-graph-up-arrow me-1"></i>%{{ item.profit_margin }}</span>
+                            {% elif item.profit_margin > 0 %}
+                                <span class="text-warning fw-bold small">%{{ item.profit_margin }}</span>
+                            {% else %}
+                                <span class="text-danger fw-bold small"><i class="bi bi-graph-down-arrow me-1"></i>Zararda</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <span class="fw-bold text-dark">{{ item.daily_rate }}</span> <small class="text-muted">adet/gün</small>
+                        </td>
+                        <td>
+                            {% if item.days_to_stockout == "Sonsuz" %}
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill small px-3">Hareketsiz</span>
+                            {% elif item.days_to_stockout <= 7 %}
+                                <span class="badge bg-danger bg-opacity-10 text-danger rounded-pill small px-3">{{ item.days_to_stockout }} Gün</span>
+                            {% else %}
+                                <span class="badge bg-info bg-opacity-10 text-info rounded-pill small px-3">{{ item.days_to_stockout }} Gün</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-4">
+                            <button class="btn btn-sm btn-outline-primary rounded-pill fw-bold px-3" 
+                                    data-bs-toggle="modal" data-bs-target="#editProductModal"
+                                    data-id="{{ item.product.id }}" data-name="{{ item.product.name }}"
+                                    data-cost="{{ item.product.cost_price|stringformat:'.2f' }}"
+                                    data-price="{{ item.product.selling_price|stringformat:'.2f' }}"
+                                    data-stock="{{ item.product.stock_quantity }}"
+                                    data-commission="{{ item.product.commission_rate|stringformat:'.2f' }}"
+                                    data-shipping="{{ item.product.shipping_cost|stringformat:'.2f' }}"
+                                    onclick="fillEditModal(this)">
+                                <i class="bi bi-sliders me-1"></i> Analiz
+                            </button>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center py-5 text-muted">
+                            <i class="bi bi-inbox fs-1 d-block mb-3 opacity-25"></i>
+                            Kayıtlı ürün bulunamadı.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+            <div class="modal-header bg-primary text-white border-0 rounded-top-4">
+                <h5 class="modal-title fw-bold"><i class="bi bi-calculator me-2"></i><span id="modalProductName">Ürün</span> Analizi</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <form id="editProductForm" method="POST" action="">
+                {% csrf_token %}
+                <div class="modal-body p-4">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-muted">Maliyet (₺)</label>
+                            <input type="number" step="0.01" class="form-control" id="modalCost" name="cost_price" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-muted">Satış Fiyatı (₺)</label>
+                            <input type="number" step="0.01" class="form-control" id="modalPrice" name="selling_price" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-muted">Komisyon (%)</label>
+                            <input type="number" step="0.01" class="form-control" id="modalCommission" name="commission_rate" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold small text-muted">Kargo (₺)</label>
+                            <input type="number" step="0.01" class="form-control" id="modalShipping" name="shipping_cost" required>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-bold small text-muted">Mevcut Stok</label>
+                            <input type="number" class="form-control" id="modalStock" name="stock_quantity" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer border-0 bg-light rounded-bottom-4">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary fw-bold shadow-sm rounded-pill px-4">Güncelle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function fillEditModal(button) {
+        const id = button.getAttribute('data-id');
+        document.getElementById('modalProductName').innerText = button.getAttribute('data-name');
+        document.getElementById('modalCost').value = button.getAttribute('data-cost').replace(',', '.');
+        document.getElementById('modalPrice').value = button.getAttribute('data-price').replace(',', '.');
+        document.getElementById('modalStock').value = button.getAttribute('data-stock');
+        document.getElementById('modalCommission').value = button.getAttribute('data-commission').replace(',', '.');
+        document.getElementById('modalShipping').value = button.getAttribute('data-shipping').replace(',', '.');
+        document.getElementById('editProductForm').action = "/product/update/" + id + "/"; 
+    }
+</script>
+{% endblock %}

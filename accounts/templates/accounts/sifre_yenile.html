@@ -1,0 +1,12 @@
+{% extends 'accounts/base_auth.html' %}
+{% block content %}
+    <h4 class="text-center fw-bold mb-3">Şifre Sıfırlama</h4>
+    <p class="text-muted small text-center mb-4">Hesabınıza kayıtlı e-posta adresinizi girin.</p>
+    <form method="post">
+    {% csrf_token %}
+    <input type="email" name="email" class="form-control" required>
+    <button type="submit" class="btn btn-primary w-100" onclick="this.disabled=true;this.form.submit();">
+        Sıfırlama Linki Gönder
+    </button>
+</form>
+{% endblock %}
