@@ -42,7 +42,6 @@
                     </button>
                 </li>
             </ul>
-            
         </div>
 
         <div class="card-body p-4 p-md-5">
@@ -136,12 +135,57 @@
                     </div>
                 </div>
 
-            </div>
-        </div>
-    </div>
-</div>
+                <div class="tab-pane fade" id="integrations">
+                    <div class="row justify-content-center py-4">
+                        <div class="col-md-10">
+                            <h5 class="fw-bold mb-4">Pazaryeri ve API Bağlantıları</h5>
+                            
+                            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-light">
+                                <div class="d-flex align-items-center mb-4">
+                                    <div class="bg-white p-2 rounded-3 shadow-sm me-3">
+                                        <img src="https://www.shopier.com/assets/images/logo.png" alt="Shopier" style="width: 40px;">
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-0">Shopier Otomasyonu</h6>
+                                        <small class="text-muted">Ürün ve stok verilerini anlık senkronize edin.</small>
+                                    </div>
+                                    <div class="ms-auto">
+                                        <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Hazır</span>
+                                    </div>
+                                </div>
 
-<style>
+                                <form method="POST" action="{% url 'sync_shopier' %}">
+                                    {% csrf_token %}
+                                    <div class="mb-3">
+                                        <label class="form-label text-muted fw-bold small">Kişisel Erişim Anahtarı (PAT)</label>
+                                        <div class="input-group shadow-sm">
+                                            <input type="text" name="shopier_api_key" class="form-control border-end-0" placeholder="Shopier'den aldığınız anahtarı buraya yapıştırın..." required>
+                                            <button type="submit" class="btn btn-primary fw-bold px-4">
+                                                <i class="bi bi-cloud-download me-2"></i>Verileri Çek
+                                            </button>
+                                        </div>
+                                        <div class="form-text mt-2 small text-secondary">
+                                            <i class="bi bi-info-circle me-1"></i> Shopier Panel > Hesap Yönetimi > Kişisel Erişim Anahtarı kısmından kopyalayın.
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class="card border-0 shadow-sm rounded-4 p-4 opacity-50">
+                                <div class="d-flex align-items-center">
+                                    <div class="bg-white p-2 rounded-3 shadow-sm me-3">
+                                        <i class="bi bi-cart4 fs-3 text-secondary"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-0 text-muted">Trendyol (Yakında)</h6>
+                                        <small class="text-muted">Mağaza ürünlerinizi otomatik Stockiva'ya bağlayın.</small>
+                                    </div>
+                                    <div class="ms-auto text-muted small">Hazırlanıyor...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> </div> </div> </div> </div> <style>
     /* Settings'e özel küçük dokunuşlar */
     .nav-tabs .nav-link { 
         border: none; 
@@ -163,6 +207,9 @@
     }
     .form-control:focus {
         box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+    }
+    .grayscale {
+        filter: grayscale(1);
     }
 </style>
 {% endblock %}
