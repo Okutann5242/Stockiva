@@ -13,4 +13,6 @@ urlpatterns = [
     path('product/update/<int:product_id>/', views.update_product, name='update_product'),
     path('logout/', views.custom_logout, name='logout'),
     path('api/shopier/webhook/', views.shopier_webhook, name='shopier_webhook'),
+    path('integrations/', views.sync_shopier, name='integrations'),
+    path('sync-shopier/', views.sync_shopier, name='sync_shopier'),
 ]

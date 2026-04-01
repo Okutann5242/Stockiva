@@ -141,6 +141,12 @@
                         <div class="col-12">
                             <label class="form-label fw-bold small text-muted">Mevcut Stok</label>
                             <input type="number" class="form-control" id="modalStock" name="stock_quantity" required>
+                            <div class="col-12">
+                            <div id="kar_sonuc_kutusu" class="mt-2 p-3 text-center rounded-3 d-none border">
+                            <h3 id="kar_yuzdesi" class="fw-bold mb-0"></h3>
+                            <p id="kar_durumu" class="mb-0 small text-uppercase fw-bold"></p>
+                            </div>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -164,5 +170,41 @@
         document.getElementById('modalShipping').value = button.getAttribute('data-shipping').replace(',', '.');
         document.getElementById('editProductForm').action = "/product/update/" + id + "/"; 
     }
+
+document.getElementById('satis_input').addEventListener('input', function() {
+    // Maliyeti ve kullanıcının yazdığı yeni satışı al
+    const maliyet = parseFloat(document.getElementById('maliyet_input').value);
+    const satis = parseFloat(this.value);
+    const kutu = document.getElementById('kar_sonuc_kutusu');
+    const yuzdeYazi = document.getElementById('kar_yuzdesi');
+    const durumYazi = document.getElementById('kar_durumu');
+
+    // Eğer geçerli bir satış fiyatı girildiyse hesapla
+    if (satis > 0 && maliyet > 0) {
+        kutu.classList.remove('d-none'); // Kutuyu göster
+        
+        const kar = satis - maliyet;
+        const yuzde = (kar / maliyet) * 100;
+        
+        yuzdeYazi.innerText = `%${yuzde.toFixed(1)} Kâr`;
+
+        // Renk ve Durum Belirle
+        if (yuzde < 15) {
+            kutu.style.backgroundColor = '#fff3cd'; // Sarı (Riskli)
+            kutu.style.color = '#856404';
+            durumYazi.innerText = "⚠️ Marj Çok Düşük (Riskli)";
+        } else if (yuzde >= 45) {
+            kutu.style.backgroundColor = '#d4edda'; // Yeşil (Mükemmel)
+            kutu.style.color = '#155724';
+            durumYazi.innerText = "🚀 Harika Marj (Mükemmel)";
+        } else {
+            kutu.style.backgroundColor = '#d1ecf1'; // Mavi (İdeal)
+            kutu.style.color = '#0c5460';
+            durumYazi.innerText = "✅ İdeal Aralık";
+        }
+    } else {
+        kutu.classList.add('d-none'); // Fiyat silinirse kutuyu gizle
+    }
+});
 </script>
 {% endblock %}

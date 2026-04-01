@@ -1,0 +1,52 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Entegrasyonlar - Stockiva{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <div class="card-header bg-primary py-3 text-white border-0">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-plug-fill me-2"></i>Pazaryeri Entegrasyon Yönetimi</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4 p-3 border rounded-3 bg-light">
+                        <div class="flex-shrink-0 bg-white p-2 rounded-circle shadow-sm">
+                            <img src="https://www.shopier.com/assets/images/logo.png" alt="Shopier" style="width: 50px;">
+                        </div>
+                        <div class="ms-3 flex-grow-1">
+                            <h6 class="fw-bold mb-1">Shopier Otomasyonu</h6>
+                            <p class="text-muted small mb-0">Ürünlerinizi ve stoklarınızı tek tıkla senkronize edin.</p>
+                        </div>
+                        <span class="badge bg-success rounded-pill">Aktif</span>
+                    </div>
+
+                    <form method="POST" action="{% url 'sync_shopier' %}">
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label class="form-label fw-bold small text-secondary text-uppercase">Kişisel Erişim Anahtarı (PAT)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0"><i class="bi bi-key-fill text-muted"></i></span>
+                                <input type="text" name="shopier_api_key" class="form-control border-start-0 ps-0" placeholder="Shopier'den aldığınız anahtarı buraya yapıştırın..." required>
+                            </div>
+                            <div class="form-text mt-2">
+                                <i class="bi bi-info-circle me-1"></i> Bu anahtarı Shopier Panel > Hesap Yönetimi > Kişisel Erişim Anahtarı bölümünden alabilirsiniz.
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg rounded-pill fw-bold shadow-sm">
+                                <i class="bi bi-cloud-download-fill me-2"></i>Verileri Stockiva'ya Aktar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer bg-white py-3 text-center border-0">
+                    <small class="text-muted">Güvenli API bağlantısı üzerinden 256-bit şifreleme ile aktarılır.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

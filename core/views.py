@@ -375,29 +375,108 @@ from rest_framework.response import Response
 from .models import Product, Sale # Kendi modellerin
 import json
 
-@api_view(['POST'])
-@permission_classes([AllowAny]) # Shopier'ın erişebilmesi için şifresiz olmalı
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
+from .models import Product, Sale # Modellerinin isminden emin ol
+
+@csrf_exempt # Shopier dışarıdan eriştiği için bu şart!
 def shopier_webhook(request):
-    # 1. Shopier'dan gelen veriyi al
-    data = request.data 
+    if request.method == 'POST':
+        # Shopier verileri POST olarak gönderir
+        product_name = request.POST.get('product_name')
+        quantity = int(request.POST.get('res_quantity', 1)) # Shopier'da miktar genelde bu isimle gelir
+        total_price = request.POST.get('total_order_value')
+
+        try:
+            # İsme göre ürünü buluyoruz
+            product = Product.objects.get(name__icontains=product_name)
+            
+            # Stok düşür
+            product.stock_quantity -= quantity
+            product.save()
+
+            # Satış kaydı oluştur (Dashboard grafikleri için)
+            Sale.objects.create(
+                product=product,
+                quantity=quantity,
+                price=total_price
+            )
+            return HttpResponse(status=200) # Shopier'a "Tamam, aldım" diyoruz
+        except Product.DoesNotExist:
+            return HttpResponse(status=404)
+            
+    return HttpResponse(status=400)
+
+import requests
+
+def fetch_shopier_products(api_key):
+    # Shopier API adresi (Ürünleri listeleme)
+    url = "https://api.shopier.com/v1/products"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
     
-    # Shopier'dan gelen örnek veri: {'platform_order_id': '123', 'product_name': 'Kulaklık', 'price': 500}
-    product_name = data.get('product_name')
-    quantity = int(data.get('quantity', 1))
-    price = float(data.get('total_amount'))
+    response = requests.get(url, headers=headers)
+    
+    if response.status_code == 200:
+        products = response.json() # Shopier'deki tüm ürünler buraya gelir
+        for item in products:
+            # Eğer ürün bizde yoksa yeni oluştur, varsa güncelle
+            Product.objects.update_or_create(
+                name=item['title'],
+                defaults={
+                    'selling_price': item['price'],
+                    'stock_quantity': item['stock_quantity'],
+                    # Maliyeti Shopier bilmez, orayı 0 veya elle girilecek bırakırız
+                }
+            )
+        return True
+    return False
 
-    # 2. Veritabanında ürünü bul ve stoğu düş
-    try:
-        product = Product.objects.get(name__icontains=product_name)
-        product.stock_quantity -= quantity
-        product.save()
+import requests
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import Product # Ürün modelinin adı farklıysa düzelt
 
-        # 3. Satış tablosuna ekle (Dashboard'da görünmesi için)
-        Sale.objects.create(
-            product=product,
-            quantity=quantity,
-            price=price
-        )
-        return Response({"status": "success"}, status=200)
-    except Product.DoesNotExist:
-        return Response({"status": "error", "message": "Ürün bulunamadı"}, status=404)
+def sync_shopier(request):
+    if request.method == "POST":
+        api_key = request.POST.get('shopier_api_key')
+        
+        # Shopier API - Ürünleri Çekme Adresi
+        url = "https://api.shopier.com/v1/products"
+        headers = {
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json"
+        }
+
+        try:
+            response = requests.get(url, headers=headers)
+            
+            if response.status_code == 200:
+                shopier_data = response.json()
+                count = 0
+                
+                for item in shopier_data:
+                    # Ürün ismine göre kontrol et, varsa güncelle yoksa yeni oluştur
+                    # Not: Shopier'deki alan isimlerini (title, stock_quantity vb.) kontrol etmelisin
+                    obj, created = Product.objects.update_or_create(
+                        name=item.get('title'),
+                        defaults={
+                            'selling_price': item.get('price'),
+                            'stock_quantity': item.get('stock_quantity', 0),
+                            'cost_price': 0, # Shopier maliyet bilmez, bunu biz 0 başlattık
+                        }
+                    )
+                    count += 1
+                
+                messages.success(request, f"Harika! {count} adet ürün Shopier'den başarıyla aktarıldı.")
+            else:
+                messages.error(request, "Shopier API anahtarı geçersiz veya bağlantı sorunu var.")
+                
+        except Exception as e:
+            messages.error(request, f"Bir hata oluştu: {str(e)}")
+            
+        return redirect('integrations') # Ayarlar sayfasına geri dön
+    
+    return render(request, 'core/integrations.html')
