@@ -434,7 +434,7 @@ def fetch_shopier_products(api_key):
         return True
     return False
 
-import requests
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Product # Ürün modelinin adı farklıysa düzelt
