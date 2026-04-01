@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-7au!-!f4!furk1909deep5#b$5!na_$-1+-k0e^v*x-#b-)d=6
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['stockiva.com.tr', 'www.stockiva.com.tr', '185.255.95.114', 'localhost', '127.0.0.1']
 
 
 # Application definition
