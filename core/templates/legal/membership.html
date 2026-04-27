@@ -1,0 +1,67 @@
+{% extends 'legal/home_base.html' %}
+{% block title %}Üyelik Sözleşmesi | Stockiva{% endblock %}
+
+{% block content %}
+<div class="legal-header text-center">
+    <div class="container">
+        <span class="badge bg-primary-subtle text-primary mb-3 px-3 py-2 rounded-pill fw-bold">Hizmet Sözleşmesi</span>
+        <h1 class="display-5 fw-bold text-body">Kullanıcı ve Üyelik Sözleşmesi</h1>
+        <p class="opacity-75">Yürürlük Tarihi: 25.04.2026 | Versiyon: 1.0.2</p>
+    </div>
+</div>
+
+<div class="container py-5 content-body" style="font-size: 0.9rem; text-align: justify; color: var(--bs-body-color); line-height: 1.7;">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            <div class="alert alert-warning border-0 rounded-4 p-4 mb-5">
+                <p class="mb-0 small"><strong>ÖNEMLİ:</strong> Stockiva’ya üye olmanızdan itibaren, aşağıda yazılı olan hususları bütünüyle anlamış ve tamamını kabul etmiş sayılırsınız. Lütfen üyelik sürecini tamamlamadan önce bu metni dikkatle okuyunuz.</p>
+            </div>
+
+            <h4 class="fw-bold mt-5 text-primary">1. TARAFLAR VE KONU</h4>
+            <p><strong>1.1.</strong> İşbu Üyelik Sözleşmesi; <strong>Stockiva</strong> platformu (Bundan sonra “Platform” olarak anılacaktır) üzerinden sunulan e-ticaret analiz ve raporlama hizmetlerinden yararlanan Üye (Satıcı) arasında akdedilmiştir.</p>
+            <p><strong>1.2.</strong> Platformun sahibi ve hizmet sağlayıcısı <strong>Stockiva Yönetimi</strong>'dir. Resmi iletişim kanalı <strong>stockivatech@gmail.com</strong>, resmi web adresi ise <strong>www.stockiva.com.tr</strong>'dir.</p>
+            <p><strong>1.3.</strong> Stockiva, işbu sözleşme hükümlerini dilediği zaman platform üzerinden duyurmak suretiyle değiştirme hakkına sahiptir. Değişiklikler yayınlandığı tarihten itibaren geçerlilik kazanır.</p>
+
+            <h4 class="fw-bold mt-5 text-primary">2. TANIMLAR</h4>
+            <p><strong>HİZMETLER:</strong> Shopier API entegrasyonu ile verilerin çekilmesi, bu verilerin Yapay Zeka (AI) modelleri ile işlenerek raporlanması hizmetleridir.</p>
+            <p><strong>ÜYE (SATICI):</strong> Platforma kayıt olarak verilerini analiz ettiren gerçek veya tüzel kişidir.</p>
+            <p><strong>AI MOTORU:</strong> Verileri analiz etmek için kullanılan üçüncü taraf yapay zeka servislerini (Google Gemini, Groq vb.) ifade eder.</p>
+            <p><strong>SİTE BELGELERİ:</strong> Üyelik Sözleşmesi, Aydınlatma Metni ve Kullanım Koşulları'nın tamamıdır.</p>
+
+            <h4 class="fw-bold mt-5 text-primary">3. GENEL HÜKÜMLER</h4>
+            <p><strong>3.1.</strong> Üye, 18 yaşından büyük olduğunu ve sözleşme yapma ehliyetine sahip olduğunu beyan eder. 18 yaşından küçüklerin üye olduğu tespit edilirse hesapları derhal kapatılır.</p>
+            <p><strong>3.2.</strong> Üyelik başvurularını değerlendirme ve gerekçe göstermeksizin reddetme hakkı Stockiva Yönetimi’ne aittir.</p>
+            <p><strong>3.3.</strong> <strong>Hizmetin Niteliği:</strong> Stockiva bir "Karar Destek Mekanizması"dır. Yapay zeka tarafından üretilen analizler hata payı içerebilir. Üye, bu analizlere dayanarak aldığı ticari kararların tüm finansal sorumluluğunun kendisine ait olduğunu, Stockiva'yı bu kararlar nedeniyle sorumlu tutmayacağını kabul eder.</p>
+            <p><strong>3.4.</strong> Üye, Shopier API anahtarlarını sisteme tanımlarken, bu anahtarların sadece analiz amacıyla kullanılacağını ve şifreli bir şekilde (AES-256) saklanacağını bilir ve kabul eder.</p>
+
+            <h4 class="fw-bold mt-5 text-primary">4. ÜYELERİN HAK VE YÜKÜMLÜLÜKLERİ</h4>
+            <p><strong>4.1.</strong> Üye, kendisine ait kullanıcı adı ve şifreyi korumakla yükümlüdür. Şifrenin izinsiz kullanımı durumunda sorumluluk Üye'ye aittir.</p>
+            <p><strong>4.2.</strong> Üye, sisteme girdiği verilerin (maliyetler, giderler vb.) doğruluğunu taahhüt eder. Yanlış girilen veriler sonucu oluşan hatalı raporlardan Stockiva sorumlu değildir.</p>
+            <p><strong>4.3.</strong> Üye, Platformun işleyişini aksatacak, sunuculara aşırı yük bindirecek veya kaynak kodlara erişmeye çalışacak (Reverse Engineering) faaliyetlerde bulunamaz.</p>
+            <p><strong>4.4.</strong> Üye, Platform üzerinden elde ettiği raporları ticari amaçla kopyalayamaz veya üçüncü kişilere ücretli/ücretsiz olarak dağıtamaz.</p>
+
+            <h4 class="fw-bold mt-5 text-primary">5. ÜCRETLENDİRME VE HİZMET BEDELİ</h4>
+            <p><strong>5.1.</strong> PRO üyelik ücretleri, Platformun ilgili sayfasında ilan edilir. Ücretlere ilişkin değişiklikler yeni fatura döneminden itibaren geçerli olur.</p>
+            <p><strong>5.2.</strong> Ücretli hizmetler dijital ortamda anında ifa edildiği için, hizmetin başlamasıyla beraber Mesafeli Sözleşmeler Yönetmeliği uyarınca cayma hakkı kullanılamaz. Üye bu hususu peşinen kabul eder.</p>
+
+            <h4 class="fw-bold mt-5 text-primary">6. GİZLİLİK VE VERİ KORUMA</h4>
+            <p><strong>6.1.</strong> Stockiva ile paylaşılan kişisel veriler, 6698 sayılı KVKK kapsamında işlenmektedir. Kullanıcı, <strong>stockivatech@gmail.com</strong> üzerinden veri talebinde bulunabilir.</p>
+            <p><strong>6.2.</strong> Yapay zeka analizleri sırasında kullanılan veriler anonimleştirilir; Üye'nin kişisel bilgileri (E-posta, isim vb.) AI motorlarına aktarılmaz.</p>
+
+            <h4 class="fw-bold mt-5 text-primary">7. FESİH VE MÜCBİR SEBEPLER</h4>
+            <p><strong>7.1.</strong> Üye, dilediği zaman hesabını kapatabilir. Ancak dönem ortasında yapılan hesap kapatmalarında ücret iadesi yapılmaz.</p>
+            <p><strong>7.2.</strong> Doğal afet, savaş veya küresel internet altyapı sorunları gibi mücbir sebepler durumunda Stockiva, hizmetin aksamasından dolayı sorumlu tutulamaz.</p>
+
+            <h4 class="fw-bold mt-5 text-primary">8. YETKİLİ MAHKEME</h4>
+            <p><strong>8.1.</strong> İşbu sözleşmeden doğacak ihtilaflarda Türkiye Cumhuriyeti hukuku uygulanacak olup, <strong>Gümüşhane Mahkemeleri ve İcra Daireleri</strong> yetkilidir.</p>
+
+            <div class="mt-5 p-4 bg-body-tertiary rounded-4 border border-primary border-opacity-10 text-center shadow-sm">
+                <p class="mb-0 small fw-bold text-uppercase">Üyelik Formunun onaylanması ve "Kabul Ediyorum" kutucuğunun işaretlenmesi ile işbu sözleşme taraflar arasında süresiz olarak yürürlüğe girmiş sayılır.</p>
+            </div>
+            
+            <p class="mt-4 small opacity-50 text-center">© 2026 Stockiva Analytics. Tüm hakları saklıdır.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends 'core/base.html' %}
+
+{% block title %}CSV Yükle - Stockiva{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            
+            <div class="text-center mb-4">
+                <div class="bg-primary bg-opacity-10 d-inline-block p-3 rounded-circle mb-3">
+                    <i class="bi bi-cloud-arrow-up text-primary fs-1"></i>
+                </div>
+                <h3 class="fw-bold">Veri İçe Aktar</h3>
+                <p class="text-muted">Satış verilerinizi CSV formatında yükleyerek Stockiva'yı canlandırın.</p>
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0 rounded-3 mb-4">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <div class="card border-0 shadow-sm rounded-4 p-4 mb-4">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold small text-muted text-uppercase mb-2">CSV Dosyası Seçin</label>
+                        <input type="file" name="file" class="form-control form-control-lg border-2 border-dashed shadow-none" required>
+                        <div class="form-text mt-2 small">
+                            <i class="bi bi-info-circle me-1"></i> Sadece .csv uzantılı dosyalar desteklenir.
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary btn-lg fw-bold rounded-pill shadow-sm py-3">
+                            <i class="bi bi-upload me-2"></i>Verileri İşle ve Yükle
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="card border-0 bg-info bg-opacity-10 rounded-4 p-4">
+                <h6 class="fw-bold text-dark mb-3"><i class="bi bi-filetype-csv me-2 text-info"></i>Beklenen CSV Formatı:</h6>
+                <div class="bg-dark text-light p-3 rounded-3 mb-0 overflow-auto">
+                    <code class="text-info">product,quantity,price,date</code><br>
+                    <code class="text-secondary small">Telefon,2,15000,2025-03-01</code><br>
+                    <code class="text-secondary small">Laptop,1,30000,2025-03-02</code>
+                </div>
+                <p class="small text-muted mt-3 mb-0">
+                    <i class="bi bi-lightbulb me-1"></i> İpucu: Sütun isimlerinin tam olarak bu şekilde olduğundan emin olun.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Dosya yükleme inputu için özel bir dokunuş */
+    .form-control[type="file"] {
+        padding: 2rem;
+        text-align: center;
+        background-color: var(--bs-secondary-bg);
+        border-style: dashed !important;
+        border-color: var(--bs-primary-border-subtle) !important;
+        cursor: pointer;
+    }
+    .form-control[type="file"]:hover {
+        background-color: var(--bs-primary-bg-subtle);
+        border-color: var(--bs-primary) !important;
+    }
+</style>
+{% endblock %}

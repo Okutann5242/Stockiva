@@ -1,0 +1,85 @@
+{% extends 'accounts/base_auth.html' %}
+{% block title %}Kayıt - Stockiva{% endblock %}
+
+{% block content %}
+    <h4 class="text-center fw-bold mb-4">Yeni Hesap Oluştur</h4>
+    <form method="post" novalidate id="registerForm">
+        {% csrf_token %}
+        {% for field in form %}
+    <div class="mb-3">
+        <label class="small fw-bold text-muted">{{ field.label }}</label>
+        
+        {% if "password" in field.name %}
+            <div class="password-group">
+                <input type="password" 
+                       name="{{ field.name }}" 
+                       id="id_{{ field.name }}" 
+                       class="form-control" 
+                       required>
+                <button type="button" class="toggle-password">
+                    <i class="bi bi-eye-fill"></i>
+                </button>
+            </div>
+            
+            {% if field.name == "password1" %}
+            <div id="passGuide" class="mt-2 p-2 bg-light rounded shadow-sm d-none" style="font-size: 0.75rem;">
+                <ul class="list-unstyled mb-0">
+                    <li id="len" class="text-danger"><i class="bi bi-x-circle me-1"></i>En az 8 karakter</li>
+                    <li id="cap" class="text-danger"><i class="bi bi-x-circle me-1"></i>En az 1 büyük harf</li>
+                    <li id="num" class="text-danger"><i class="bi bi-x-circle me-1"></i>En az 1 rakam</li>
+                </ul>
+            </div>
+            {% endif %}
+        {% else %}
+            <input type="{{ field.field.widget.input_type }}" 
+                   name="{{ field.name }}" 
+                   id="id_{{ field.name }}" 
+                   class="form-control"
+                   value="{{ field.value|default:'' }}">
+        {% endif %}
+
+        {% if field.errors %}
+            <div class="text-danger small">{{ field.errors|striptags }}</div>
+        {% endif %}
+    </div>
+{% endfor %}
+        <button type="submit" class="btn btn-success w-100 btn-auth shadow mt-2">Ücretsiz Kayıt Ol</button>
+    </form>
+    
+    <div class="text-center mt-4 small">
+        <a href="{% url 'login' %}" class="text-decoration-none text-muted">Zaten hesabım var, giriş yap</a>
+    </div>
+
+<script>
+    // Şifre Göster/Gizle
+    document.querySelectorAll('.toggle-password').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const input = this.previousElementSibling;
+            const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+            input.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('bi-eye-fill');
+            this.querySelector('i').classList.toggle('bi-eye-slash-fill');
+        });
+    });
+
+    // Canlı Şifre Kontrolü
+    const pass1 = document.querySelector('#id_password1');
+    const guide = document.querySelector('#passGuide');
+
+    if(pass1) {
+        pass1.addEventListener('focus', () => guide.classList.remove('d-none'));
+        pass1.addEventListener('input', function() {
+            const val = this.value;
+            check('len', val.length >= 8);
+            check('cap', /[A-Z]/.test(val));
+            check('num', /[0-9]/.test(val));
+        });
+    }
+
+    function check(id, ok) {
+        const el = document.getElementById(id);
+        el.className = ok ? 'text-success' : 'text-danger';
+        el.querySelector('i').className = ok ? 'bi bi-check-circle-fill me-1' : 'bi bi-x-circle me-1';
+    }
+</script>
+{% endblock %}

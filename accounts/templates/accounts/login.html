@@ -1,0 +1,42 @@
+{% extends 'accounts/base_auth.html' %}
+{% block title %}Giriş - Stockiva{% endblock %}
+
+{% block content %}
+    <h4 class="text-center fw-bold mb-4">Hoş Geldiniz</h4>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="small fw-bold text-muted">Kullanıcı Adı</label>
+            <input type="text" name="username" class="form-control" required>
+        </div>
+        <div class="mb-4">
+            <label class="small fw-bold text-muted">Şifre</label>
+            <div class="password-group">
+    <input type="password" name="password" id="loginPassword" class="form-control" required>
+    <button type="button" class="toggle-password" id="toggleLoginPassword">
+        <i class="bi bi-eye-fill" id="eyeIcon"></i>
+    </button>
+</div>
+        </div>
+        <button type="submit" class="btn btn-primary w-100 btn-auth shadow">Giriş Yap</button>
+    </form>
+    
+    <div class="text-center mt-4 small">
+        <a href="{% url 'password_reset' %}" class="text-decoration-none text-primary fw-bold">Şifremi Unuttum</a>
+        <span class="mx-2 text-muted">|</span>
+        <a href="{% url 'register' %}" class="text-decoration-none fw-bold">Kayıt Ol</a>
+    </div>
+
+<script>
+    const toggleBtn = document.querySelector('#toggleLoginPassword');
+    const passwordInput = document.querySelector('#loginPassword');
+    const eyeIcon = document.querySelector('#eyeIcon');
+
+    toggleBtn.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        eyeIcon.classList.toggle('bi-eye-fill');
+        eyeIcon.classList.toggle('bi-eye-slash-fill');
+    });
+</script>
+{% endblock %}

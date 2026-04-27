@@ -1,0 +1,13 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h4 class="fw-bold mb-4">Stockiva PRO Güvenli Ödeme</h4>
+            <div id="iyzipay-checkout-form" class="responsive">
+                {{ payment_form|safe }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

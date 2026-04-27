@@ -1,0 +1,22 @@
+<div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e1e1e1; border-radius: 8px;">
+    <div style="text-align: center; padding-bottom: 20px;">
+        <h2 style="color: #0d6efd; margin: 0;">Stockiva</h2>
+    </div>
+    <div style="padding: 20px; background-color: #ffffff;">
+        <p style="font-size: 16px; color: #333;">Merhaba <strong>{{ user.username }}</strong>,</p>
+        <p style="font-size: 14px; color: #555; line-height: 1.5;">Stockiva ailesine hoş geldin! Hesabını aktifleştirmek ve dükkanını yönetmeye başlamak için aşağıdaki butona tıklaman yeterli:</p>
+        
+        <div style="text-align: center; margin: 30px 0;">
+            <a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}" 
+               style="background-color: #0d6efd; color: #ffffff !important; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 16px; display: inline-block;">
+               Hesabımı Aktifleştir
+            </a>
+        </div>
+        
+        <p style="font-size: 12px; color: #999; margin-top: 30px;">Eğer butona tıklayamıyorsan bu bağlantıyı tarayıcına kopyalayabilirsin:</p>
+        <p style="font-size: 12px; color: #0d6efd; word-break: break-all;">http://{{ domain }}{% url 'activate' uidb64=uid token=token %}</p>
+    </div>
+    <div style="text-align: center; padding-top: 20px; border-top: 1px solid #eee; font-size: 12px; color: #aaa;">
+        &copy; 2026 Stockiva Tech. Tüm hakları saklıdır.
+    </div>
+</div>

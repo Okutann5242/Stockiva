@@ -1,0 +1,8 @@
+﻿.env
+stockiva.zip
+venv/
+__pycache__/
+*.pyc
+db.sqlite3
+staticfiles/
+.vscode/

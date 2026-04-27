@@ -1,0 +1,388 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Ayarlar - Stockiva{% endblock %}
+
+{% block content %}
+<style>
+    /* Dark Mode Uyumlu Settings UI */
+    .settings-card {
+        background-color: var(--bs-body-bg); /* Arka plana göre renk değiştirir */
+        border-radius: 20px;
+        border: 1px solid var(--bs-border-color);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        color: var(--bs-body-color);
+    }
+
+    .nav-tabs .nav-link { 
+        border: none; 
+        color: var(--bs-secondary-color); 
+        font-weight: 500;
+        padding: 1rem 1.5rem;
+        transition: all 0.3s;
+    }
+
+    .nav-tabs .nav-link.active { 
+        background: transparent !important;
+        color: var(--bs-primary) !important;
+        border-bottom: 3px solid var(--bs-primary) !important;
+        font-weight: 700;
+    }
+
+    /* Entegrasyon kartlarını karanlık modda koyulaştır */
+    .integration-card {
+        background-color: var(--bs-tertiary-bg);
+        border: 1px solid var(--bs-border-color);
+        border-radius: 16px;
+        transition: transform 0.2s;
+    }
+
+    .integration-card:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Input alanlarını modla uyumlu yap */
+    .form-control {
+        background-color: var(--bs-secondary-bg) !important;
+        color: var(--bs-body-color) !important;
+        border: 1px solid var(--bs-border-color) !important;
+    }
+
+    .form-control:focus {
+        background-color: var(--bs-body-bg) !important;
+        border-color: var(--bs-primary) !important;
+    }
+
+    /* Koyu modda düz beyaz kalan yerleri temizle */
+    .bg-light {
+        background-color: var(--bs-tertiary-bg) !important;
+    }
+
+    .text-dark {
+        color: var(--bs-body-color) !important;
+    }
+
+    /* Abonelik kartı zaten dark olduğu için dokunmuyoruz, sadece gölgesini düzenle */
+    .plan-card {
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+</style>
+
+<div class="container-fluid">
+    <div class="mb-4">
+        <h3 class="fw-bold mb-0">Platform Ayarları</h3>
+        <p class="text-muted">Stockiva deneyiminizi, güvenliğinizi ve hedeflerinizi yönetin.</p>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm border-0 rounded-3">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="card settings-card overflow-hidden">
+        <div class="card-header bg-transparent pt-3 px-4 border-bottom">
+            <ul class="nav nav-tabs border-0" id="settingsTab" role="tablist">
+                <li class="nav-item">
+                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#general">
+                        <i class="bi bi-person-vcard me-2"></i>Genel
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#security">
+                        <i class="bi bi-shield-lock me-2"></i>Güvenlik
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#subscription">
+                        <i class="bi bi-star-fill text-warning me-2"></i>Abonelik
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#integrations">
+                        <i class="bi bi-plug-fill me-2 text-primary"></i>Entegrasyonlar
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+            <div class="tab-content" id="settingsTabContent">
+                
+                <div class="tab-pane fade show active" id="general">
+                    <form method="POST" action="{% url 'settings' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="action" value="update_profile">
+                        <h5 class="fw-bold mb-4 text-dark">Kişisel ve İşletme Bilgileri</h5>
+                        <div class="row g-4 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted fw-bold small">Adınız</label>
+                                <input type="text" name="first_name" class="form-control rounded-3" value="{{ user.first_name }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted fw-bold small">Soyadınız</label>
+                                <input type="text" name="last_name" class="form-control rounded-3" value="{{ user.last_name }}">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted fw-bold small">E-Posta Adresi</label>
+                                <input type="email" name="email" class="form-control rounded-3" value="{{ user.email }}" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted fw-bold small">Telefon Numarası</label>
+                                <input type="text" name="phone_number" class="form-control rounded-3" value="{{ profile.phone_number|default:'' }}" placeholder="+90 5XX XXX XX XX">
+                            </div>
+                        </div>
+
+                        <hr class="my-5 opacity-25">
+
+                        <h5 class="fw-bold mb-4 text-dark">Sistem Tercihleri</h5>
+                        <div class="row g-4 align-items-center">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted fw-bold small">Aylık Ciro Hedefi (₺)</label>
+                                <input type="number" step="0.01" name="monthly_revenue_goal" class="form-control fw-bold text-primary fs-5 rounded-3" value="{{ profile.monthly_revenue_goal|stringformat:'.2f' }}">
+                                <small class="text-muted">Dashboard performans yüzdenizi belirler.</small>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check form-switch mt-3">
+                                    <input class="form-check-input" type="checkbox" name="email_notifications" id="emailSwitch" {% if profile.email_notifications %}checked{% endif %}>
+                                    <label class="form-check-label ms-2 fw-semibold" for="emailSwitch">Kritik Stok Uyarılarını E-Posta İle Al</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-end mt-5">
+                            <button type="submit" class="btn btn-primary fw-bold px-5 py-2 shadow-sm rounded-pill">Bilgileri Güncelle</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="security">
+                    <div class="row">
+                        <div class="col-md-6 border-end pe-md-5">
+                            <h5 class="fw-bold mb-4">Şifre İşlemleri</h5>
+                            <p class="text-muted small mb-4">Hesap güvenliğiniz için şifrenizi düzenli aralıklarla değiştirmenizi öneririz.</p>
+                            <a href="{% url 'password_reset' %}" class="btn btn-dark fw-bold w-100 py-3 shadow-sm rounded-pill">
+                                <i class="bi bi-envelope-at me-2"></i>Şifre Sıfırlama Bağlantısı Gönder
+                            </a>
+                        </div>
+                        <div class="col-md-6 ps-md-5 mt-5 mt-md-0">
+                            <h5 class="fw-bold mb-4">İki Adımlı Doğrulama (2FA)</h5>
+                            <div class="card border-0 bg-light p-4 rounded-4 shadow-sm">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>
+                                        <h6 class="fw-bold mb-1">Durum: {% if profile.two_factor_auth %}Aktif{% else %}Pasif{% endif %}</h6>
+                                        <small class="text-muted">Google Authenticator desteği.</small>
+                                    </div>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" id="2faSwitch" 
+                                               {% if profile.two_factor_auth %}checked onclick="window.location.href='{% url 'two_factor:disable' %}'"
+                                               {% else %}onclick="window.location.href='{% url 'two_factor:setup' %}'"{% endif %}>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+       <div class="tab-pane fade" id="subscription">
+    <div class="premium-layout">
+        
+        <div class="card border-0 shadow-lg rounded-4 mb-4 overflow-hidden" 
+             style="background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%); min-height: 200px;">
+            
+            <div class="card-body p-4 p-md-5 position-relative">
+                <div class="position-absolute top-0 start-0 w-100 h-100 opacity-20" 
+                     style="background: radial-gradient(circle at 10% 20%, #6366f1 0%, transparent 50%); z-index: 1;"></div>
+
+                <div class="row align-items-center position-relative" style="z-index: 2;">
+                    <div class="col-lg-8">
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-white bg-opacity-10 border border-white border-opacity-10 rounded-4 d-flex align-items-center justify-content-center me-4 shadow-sm" style="min-width: 70px; height: 70px;">
+                                <i class="bi {% if profile.is_pro %}bi-gem text-primary{% else %}bi-lightning-fill text-warning{% endif %} fs-1"></i>
+                            </div>
+                            <div>
+                                <h1 class="text-white fw-bold mb-1">Stockiva {% if profile.is_pro %}<span class="text-primary">PRO</span>{% else %}FREE{% endif %}</h1>
+                                <p class="text-white-50 mb-0">{% if profile.is_pro %}Profesyonel ticaretin tüm kapıları açık.{% else %}Yapay zeka ile dükkanını uçur.{% endif %}</p>
+                            </div>
+                        </div>
+
+                        {% if profile.is_pro %}
+                        <div class="d-inline-flex align-items-center px-3 py-2 rounded-pill shadow-sm" style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1);">
+                            <span class="rounded-circle {% if profile.auto_renew %}bg-success{% else %}bg-warning{% endif %} me-2 shadow-sm" style="width: 10px; height: 10px;"></span>
+                            <span class="text-white small fw-bold">
+                                {% if profile.auto_renew %}Otomatik Yenileme Aktif{% else %}Otomatik Yenileme Kapalı{% endif %}
+                            </span>
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-lg-4 text-lg-end mt-4 mt-lg-0">
+                        <h2 class="text-white fw-bold mb-0">₺199<span class="fs-6 text-white-50 fw-normal">/ay</span></h2>
+                        <small class="text-primary fw-bold text-uppercase">Premium Plan</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="card border-0 rounded-4 h-100 shadow-sm custom-glass-card" style="background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255, 255, 255, 0.05);">
+                    <div class="card-body p-4">
+                        <h6 class="text-muted text-uppercase fw-bold small mb-4">Abonelik Yönetimi</h6>
+                        
+                        {% if profile.is_pro %}
+                            <div class="p-3 mb-4 rounded-3 border border-white border-opacity-10" style="background: rgba(255,255,255,0.03);">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted small">Sıradaki Ödeme / Bitiş</span>
+                                    <span class="text-white fw-bold">{{ profile.subscription_end_date|date:"d F Y" }}</span>
+                                </div>
+                            </div>
+
+                            {% if profile.auto_renew %}
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="cancel_subscription">
+                                    <button type="submit" class="btn btn-outline-danger w-100 rounded-pill py-3 fw-bold shadow-sm" onclick="return confirm('Emin misiniz? Ay sonuna kadar PRO devam edecektir.');">
+                                        <i class="bi bi-pause-circle me-2"></i>Aboneliği Durdur
+                                    </button>
+                                </form>
+                            {% else %}
+                                <div class="p-4 rounded-4 border border-primary border-opacity-20 text-center" style="background: rgba(99, 102, 241, 0.1);">
+    <p class="text-white small mb-3 fw-bold">
+        🎁 Gitme kral! Yenilemeyi aç, sadakatine özel 
+        <strong>%{{ profile.get_loyalty_discount|default:"20" }} İndirim</strong> ile devam et!
+    </p>
+    <form method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="action" value="reactivate_subscription">
+        <button type="submit" class="btn btn-primary w-100 rounded-pill fw-bold py-2 shadow-primary">
+            Yenilemeyi Tekrar Başlat
+        </button>
+    </form>
+</div>
+                            {% endif %}
+                        {% else %}
+                            <div class="text-center py-3">
+                                <p class="text-muted mb-4 small">Tüm sınırları kaldırmak için hemen PRO'ya katılın.</p>
+                                <button class="btn btn-primary w-100 rounded-pill py-3 fw-bold shadow-primary" onclick="location.href='{% url 'checkout' %}'">
+                                    <i class="bi bi-lightning-charge-fill me-2"></i>HEMEN PRO'YA KATIL
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card border-0 rounded-4 h-100 shadow-sm custom-glass-card" style="background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255, 255, 255, 0.05);">
+                    <div class="card-body p-4">
+                        <h6 class="text-muted text-uppercase fw-bold small mb-4">Plan Avantajları</h6>
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="bi bi-check-circle-fill text-primary me-3 fs-5"></i>
+                                <span class="text-muted">Sınırsız Shopier Senkronizasyonu</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-3">
+                                <i class="bi bi-check-circle-fill text-primary me-3 fs-5"></i>
+                                <span class="text-muted">Gemini Destekli Derin AI Analizi</span>
+                            </li>
+                            <li class="d-flex align-items-center">
+                                <i class="bi bi-check-circle-fill text-primary me-3 fs-5"></i>
+                                <span class="text-muted">Kritik Stok Mail Bildirimleri</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Dark Mode Global Stil */
+    .custom-glass-card { background: rgba(30, 41, 59, 0.4); border: 1px solid rgba(255, 255, 255, 0.05); }
+    .shadow-primary { box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4); }
+    
+    /* Light Mode Patlamasını Önleyen Dinamik CSS */
+    [data-bs-theme="light"] .custom-glass-card { background: #ffffff; border: 1px solid #e2e8f0; }
+    [data-bs-theme="light"] .text-muted { color: #64748b !important; }
+    [data-bs-theme="light"] .text-white { color: #1e293b !important; }
+    [data-bs-theme="light"] .text-white-50 { color: #475569 !important; }
+</style>
+               <div class="tab-pane fade" id="integrations">
+    <div class="row g-4">
+        <div class="col-md-12">
+            <h5 class="fw-bold mb-4">Pazaryeri Bağlantıları</h5>
+            
+            <div class="integration-card p-4">
+    <div class="d-flex align-items-center mb-4">
+        <div class="bg-white p-2 rounded-3 shadow-sm me-3 border d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+            <img src="https://img.yt/i/shopier-logo.png" 
+                 onerror="this.src='https://cdn-icons-png.flaticon.com/512/1162/1162499.png'" 
+                 alt="Shopier" style="width: 32px;">
+        </div>
+        <div>
+            <h6 class="fw-bold mb-0">Shopier Otomasyonu</h6>
+            <small class="text-muted">Ürün ve stok verilerini tek tıkla senkronize edin.</small>
+        </div>
+        <div class="ms-auto">
+            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-3">Bağlantı Hazır</span>
+        </div>
+    </div>
+
+    <form method="POST" action="{% url 'sync_shopier' %}">
+        {% csrf_token %}
+        <div class="row g-3">
+            <div class="col-12">
+                <label class="form-label text-muted fw-bold small">Kişisel Erişim Anahtarı (PAT)</label>
+                <div class="input-group shadow-sm">
+                    <span class="input-group-text bg-body border-end-0">
+                        <i class="bi bi-key-fill text-primary"></i>
+                    </span>
+                    <input type="password" name="shopier_api_key" class="form-control border-start-0 py-2" 
+                           placeholder="Erişim anahtarınız koruma altında..." 
+                           value="{{ profile.shopier_api_key|default:'' }}" required>
+                    <button type="submit" class="btn btn-primary px-4 fw-bold">
+                        <i class="bi bi-cloud-arrow-down-fill me-2"></i>Verileri Senkronize Et
+                    </button>
+                </div>
+                <div class="form-text mt-3">
+                    <i class="bi bi-info-circle me-1"></i> Yeni bir satış yaptığınızda veya ürün eklediğinizde bu butona basarak verileri güncelleyebilirsiniz.
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+        <div class="col-md-12">
+            <h6 class="text-muted small fw-bold text-uppercase mb-3 mt-4">Gelecek Entegrasyonlar</h6>
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <div class="card border-0 bg-light p-3 opacity-75">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-shop fs-4 me-3 text-muted"></i>
+                            <div>
+                                <p class="mb-0 fw-bold small">Trendyol</p>
+                                <small class="text-muted" style="font-size: 0.7rem;">Çok Yakında</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card border-0 bg-light p-3 opacity-75">
+                        <div class="d-flex align-items-center">
+                            <i class="bi bi-handbag fs-4 me-3 text-muted"></i>
+                            <div>
+                                <p class="mb-0 fw-bold small">Hepsiburada</p>
+                                <small class="text-muted" style="font-size: 0.7rem;">Planlanıyor</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

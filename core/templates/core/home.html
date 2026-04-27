@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stockiva V2.0 | Advanced Commerce Intelligence</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-blue: #007AFF;
+            --bg-body: #ffffff;
+            --text-main: #1d1d1f;
+            --glass-card: rgba(255, 255, 255, 0.8);
+            --footer-bg: #f5f5f7;
+        }
+
+        body.dark-mode {
+            --bg-body: #050505;
+            --text-main: #f5f5f7;
+            --glass-card: rgba(20, 20, 20, 0.6);
+            --footer-bg: #0f0f0f;
+        }
+
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: var(--bg-body); 
+            color: var(--text-main);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-x: hidden;
+        }
+
+        /* 1. BRAND & NAV */
+        .navbar { background: transparent; padding: 25px 0; z-index: 100; }
+        .brand-logo {
+            background: var(--primary-blue); color: white;
+            width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;
+            border-radius: 10px; box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
+        }
+        .brand-text { font-weight: 800; font-size: 1.4rem; letter-spacing: -1px; }
+
+        /* 2. HERO SLIDER */
+        .hero-section { height: 90vh; display: flex; align-items: center; position: relative; }
+        .hero-slider-wrap { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
+        .bg-slide {
+            position: absolute; width: 100%; height: 100%; background-size: cover; background-position: center;
+            opacity: 0; transform: scale(1.1); animation: slidePhase 18s infinite;
+        }
+        .slide-1 { background-image: url('https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070'); animation-delay: 0s; }
+        .slide-2 { background-image: url('https://images.unsplash.com/photo-1526304640581-d334cdbbf45e?q=80&w=2070'); animation-delay: 6s; }
+        .slide-3 { background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62?q=80&w=2070'); animation-delay: 12s; }
+
+        @keyframes slidePhase {
+            0% { opacity: 0; transform: scale(1.1); }
+            5% { opacity: 0.15; }
+            33% { opacity: 0.15; }
+            38% { opacity: 0; transform: scale(1.05); }
+            100% { opacity: 0; }
+        }
+
+        .main-title { font-weight: 800; font-size: clamp(3rem, 7vw, 6rem); letter-spacing: -4px; line-height: 0.95; }
+
+        /* 3. ISTATISTIK BANDI */
+        .stats-band {
+            background: var(--primary-blue); color: white; padding: 60px 0;
+            transform: skewY(-1deg); margin-top: -50px; position: relative; z-index: 10;
+        }
+        .stats-band .container { transform: skewY(1deg); }
+        .stat-item h2 { font-weight: 800; font-size: 3rem; margin-bottom: 5px; }
+
+        /* 4. PREMIUM KARTLAR */
+        .premium-card {
+            background: var(--glass-card); backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 35px;
+            padding: 50px 40px; transition: all 0.4s ease; height: 100%;
+        }
+        .premium-card:hover { transform: translateY(-10px); border-color: var(--primary-blue); }
+
+        /* 5. NASIL ÇALIŞIR */
+        .step-box { position: relative; padding-left: 50px; margin-bottom: 40px; }
+        .step-num { 
+            position: absolute; left: 0; top: 0; width: 35px; height: 35px; 
+            background: var(--primary-blue); color: white; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; font-weight: 800;
+        }
+
+        /* 6. JİLET FOOTER */
+        .footer { background: var(--footer-bg); padding: 80px 0 30px 0; margin-top: 100px; border-top: 1px solid rgba(0,0,0,0.05); }
+        .footer-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 25px; color: var(--primary-blue); text-transform: uppercase; letter-spacing: 1px; }
+        .footer-link { color: var(--text-main); text-decoration: none; opacity: 0.6; transition: 0.3s; display: block; margin-bottom: 12px; font-size: 0.9rem; }
+        .footer-link:hover { opacity: 1; color: var(--primary-blue); padding-left: 5px; }
+
+        #theme-btn { width: 45px; height: 45px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .grayscale-logos img { filter: grayscale(100%); opacity: 0.5; transition: 0.3s; }
+        .grayscale-logos img:hover { filter: grayscale(0%); opacity: 1; }
+    </style>
+</head>
+<body class="">
+
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <div class="d-flex align-items-center gap-2">
+                <div class="brand-logo"><i class="bi bi-box-seam-fill"></i></div>
+                <div class="brand-text">stockiva <span class="badge bg-primary-subtle text-primary border border-primary-subtle" style="font-size: 0.6rem;">V2.0</span></div>
+            </div>
+            <div class="ms-auto d-flex align-items-center gap-3">
+                <div id="theme-btn" onclick="toggleTheme()"><i class="bi bi-moon-stars-fill" id="theme-icon"></i></div>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'dashboard' %}" class="btn btn-dark rounded-pill px-4 fw-bold shadow-sm">Dashboard</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-decoration-none fw-bold small me-3" style="color: var(--text-main);">Giriş</a>
+                    <a href="{% url 'register' %}" class="btn btn-primary rounded-pill px-4 fw-bold shadow">Ücretsiz Başla</a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-slider-wrap">
+            <div class="bg-slide slide-1"></div>
+            <div class="bg-slide slide-2"></div>
+            <div class="bg-slide slide-3"></div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10">
+                    <h1 class="main-title mb-4">Dükkanını <br><span style="color: var(--primary-blue);">Veriyle</span> Ateşle.</h1>
+                    <p class="fs-4 fw-light opacity-75 mb-5" style="max-width: 650px;">E-ticaretin karmaşasını Gemini AI ile çözün. Shopier'den gelen her siparişi stratejik birer hamleye dönüştürün.</p>
+                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold">Şimdi Entegre Et <i class="bi bi-arrow-right ms-2"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="stats-band">
+        <div class="container">
+            <div class="row text-center g-4">
+                <div class="col-md-4 stat-item"><h2>%40+</h2><p class="mb-0 fw-bold opacity-75">Ortalama Kâr Artışı</p></div>
+                <div class="col-md-4 stat-item"><h2>2000+</h2><p class="mb-0 fw-bold opacity-75">Analiz Edilen Ürün</p></div>
+                <div class="col-md-4 stat-item"><h2>< 1sn</h2><p class="mb-0 fw-bold opacity-75">Veri Senkronizasyonu</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="container py-5 mt-5">
+        <div class="row align-items-center g-5">
+            <div class="col-lg-6">
+                <h2 class="display-4 fw-extrabold mb-5">Karmaşadan Kurtulun,<br><span class="text-primary">3 Adımda</span> Başlayın.</h2>
+                <div class="step-box">
+                    <div class="step-num">1</div>
+                    <h5 class="fw-bold">Mağazanı Bağla</h5>
+                    <p class="opacity-75">Shopier API anahtarını gir veya CSV dosyanı yükle. Tüm envanterin saniyeler içinde karşında olsun.</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-num">2</div>
+                    <h5 class="fw-bold">AI Analizini Başlat</h5>
+                    <p class="opacity-75">Gemini 1.5 motoru, her ürünün maliyetini, kargosunu ve komisyonunu hesaplayıp sana tavsiye versin.</p>
+                </div>
+                <div class="step-box">
+                    <div class="step-num">3</div>
+                    <h5 class="fw-bold">Kârını Katla</h5>
+                    <p class="opacity-75">Düşük marjlı ürünleri tespit et, stok hızına göre sipariş ver ve finansal özgürlüğün tadını çıkar.</p>
+                </div>
+            </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4">
+                    <div class="footer-title">STOCKIVA</div>
+                    <p class="opacity-50 small pe-lg-5">E-ticaret dükkan sahipleri için geliştirilmiş, yapay zeka destekli ilk yerli karar destek mekanizması. Karmaşayı bitirir, kârı getirir.</p>
+                    <div class="grayscale-logos d-flex gap-3 mt-4">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" height="15" alt="Visa">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" height="22" alt="Mastercard">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Troy_Logo.svg/1200px-Troy_Logo.svg.png" height="15" alt="Troy">
+                    </div>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <div class="footer-title">Kurumsal</div>
+                    <a href="{% url 'about' %}" class="footer-link">Hakkımızda</a>
+                    <a href="{% url 'terms' %}" class="footer-link">Kullanım Şartları</a>
+                    <a href="{% url 'privacy' %}" class="footer-link">Gizlilik Politikası</a>
+                    <a href="{% url 'kvkk' %}" class="footer-link">KVKK Metni</a>
+                    <a href="{% url 'membership' %}" class="footer-link">Üyelik Sözleşmesi</a>
+                    <a href="{% url 'refund' %}" class="footer-link">İptal ve İade Koşulları</a>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <div class="footer-title">Hızlı Erişim</div>
+                    <a href="#" class="footer-link">Özellikler</a>
+                    <a href="#" class="footer-link">Fiyatlandırma</a>
+                    <a href="#" class="footer-link">Mağaza Bağla</a>
+                    <a href="#" class="footer-link">AI Motoru</a>
+                </div>
+                <div class="col-lg-4">
+                    <div class="footer-title">İletişim & Destek</div>
+                    <p class="small opacity-50 mb-2"><i class="bi bi-geo-alt-fill me-2 text-primary"></i> Gümüşhane, Türkiye</p>
+                    <p class="small opacity-50 mb-2"><i class="bi bi-envelope-at-fill me-2 text-primary"></i> stockivatech@gmail.com</p>
+                    <div class="d-flex gap-3 mt-4">
+                        <a href="#" class="footer-link fs-5"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="footer-link fs-5"><i class="bi bi-twitter-x"></i></a>
+                        <a href="#" class="footer-link fs-5"><i class="bi bi-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center pt-4 border-top border-secondary border-opacity-10">
+                <p class="small opacity-40 mb-0">© 2026 Stockiva Analytics. Berat Okutan Girişimidir. Tüm Hakları Saklıdır.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const icon = document.getElementById('theme-icon');
+            body.classList.toggle('dark-mode');
+            if (body.classList.contains('dark-mode')) {
+                icon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
+            } else {
+                icon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
+            }
+        }
+    </script>
+    <div id="ai-btn" onclick="toggleChat()" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: #007AFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+    <i class="bi bi-robot" style="color: white; font-size: 1.5rem;"></i>
+</div>
+
+<div id="ai-box" style="position: fixed; bottom: 90px; right: 20px; width: 320px; height: 400px; background: white; border-radius: 15px; display: none; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 9999; border: 1px solid #ddd; overflow: hidden;">
+    <div style="background: #007AFF; color: white; padding: 15px; font-weight: bold;">Stockiva AI Destek</div>
+    <div id="ai-content" style="flex: 1; padding: 15px; overflow-y: auto; font-size: 0.85rem; display: flex; flex-direction: column; gap: 10px; background: #f8f9fa;">
+        <div style="background: #eee; padding: 8px; border-radius: 10px; align-self: flex-start;">Selam! Ben Stockiva Bot. Nasıl yardımcı olabilirim?</div>
+    </div>
+    <div style="padding: 10px; border-top: 1px solid #ddd;">
+        <div class="input-group">
+            <input type="text" id="ai-input" class="form-control form-control-sm" placeholder="Sorunuz...">
+            <button class="btn btn-primary btn-sm" onclick="askAI()"><i class="bi bi-send"></i></button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleChat() {
+        const box = document.getElementById('ai-box');
+        box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'flex' : 'none';
+    }
+    function askAI() {
+        const input = document.getElementById('ai-input');
+        const content = document.getElementById('ai-content');
+        if (!input.value.trim()) return;
+
+        const userMsg = document.createElement('div');
+        userMsg.style = "background: #007AFF; color: white; padding: 8px; border-radius: 10px; align-self: flex-end;";
+        userMsg.innerText = input.value;
+        content.appendChild(userMsg);
+
+        fetch('/contact-submit-ajax/', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'},
+            body: JSON.stringify({message: input.value})
+        })
+        .then(res => res.json())
+        .then(data => {
+            const aiMsg = document.createElement('div');
+            aiMsg.style = "background: #eee; padding: 8px; border-radius: 10px; align-self: flex-start;";
+            aiMsg.innerText = data.ai_answer;
+            content.appendChild(aiMsg);
+            content.scrollTop = content.scrollHeight;
+        });
+        input.value = '';
+    }
+</script>
+</body>
+</html>

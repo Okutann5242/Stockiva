@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-lg shadow-sm sticky-top" style="background-color: var(--bs-body-bg);">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="{% url 'dashboard' %}">
+            <i class="bi bi-box-seam me-2"></i>Stockiva
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Stoklar</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-3">
+                <button class="btn btn-link nav-link p-0" id="bd-theme" type="button" onclick="toggleTheme()">
+                    <i class="bi bi-moon-stars-fill fs-5" id="theme-icon"></i>
+                </button>
+                
+                <div class="dropdown">
+                    <a class="btn btn-outline-primary btn-sm dropdown-toggle rounded-pill px-3" href="#" role="button" data-bs-toggle="dropdown">
+                        {{ request.user.username }}
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end shadow border-0">
+                        <li><a class="dropdown-item" href="{% url 'profile' %}">Profil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item text-danger">Çıkış Yap</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

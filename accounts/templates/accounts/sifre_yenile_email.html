@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: auto; border: 1px solid #e0e0e0; border-radius: 10px; overflow: hidden; }
+        .header { background-color: #0d6efd; padding: 20px; text-align: center; color: white; }
+        .content { padding: 30px; line-height: 1.6; color: #333; }
+        .button { display: inline-block; padding: 15px 25px; background-color: #0d6efd; color: white !important; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; }
+        .footer { background-color: #f8f9fa; padding: 15px; text-align: center; font-size: 12px; color: #6c757d; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Stockiva</h1>
+        </div>
+        <div class="content">
+            <h3>Merhaba {{ user.get_username }},</h3>
+            <p>Hesabınız için bir şifre sıfırlama talebi aldık. Yeni şifrenizi belirlemek için aşağıdaki butona tıklayabilirsiniz:</p>
+            <div style="text-align: center;">
+                <a href="http://{{ domain }}{% url 'password_reset_confirm' uidb64=uid token=token %}" class="button">Şifremi Sıfırla</a>
+            </div>
+            <p style="margin-top: 30px;">Eğer bu talebi siz yapmadıysanız, bu e-postayı güvenle görmezden gelebilirsiniz.</p>
+            <p>Sevgiler,<br><strong>Stockiva Ekibi</strong></p>
+        </div>
+        <div class="footer">
+            &copy; 2026 Stockiva Tech. Tüm hakları saklıdır.
+        </div>
+    </div>
+</body>
+</html>

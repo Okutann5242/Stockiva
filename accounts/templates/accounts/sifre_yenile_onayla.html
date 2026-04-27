@@ -1,0 +1,103 @@
+{% extends 'accounts/base_auth.html' %}
+{% block content %}
+   <style>
+    /* Şifre Grubu Konumlandırma */
+    .password-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .password-wrapper input {
+        width: 100%;
+        padding: 12px 45px 12px 16px !important; /* Sağdan ikon boşluğu */
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+
+    .password-wrapper input:focus {
+        background: #fff;
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        outline: none;
+    }
+
+    /* Göz İkonu Butonu */
+    .toggle-password-btn {
+        position: absolute;
+        right: 12px;
+        background: none;
+        border: none;
+        color: #94a3b8;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s;
+        z-index: 10;
+    }
+
+    .toggle-password-btn:hover {
+        color: #3b82f6;
+    }
+
+    /* Kurallar ve Hatalar */
+    .helptext { font-size: 0.75rem; color: #64748b; list-style: none; padding: 0; margin-top: 8px; }
+    .helptext li { position: relative; padding-left: 15px; }
+    .helptext li::before { content: "•"; position: absolute; left: 0; color: #3b82f6; }
+</style>
+
+<form method="post">
+    {% csrf_token %}
+    
+    {% for field in form %}
+        <div class="mb-4">
+            <label class="form-label fw-semibold small text-dark mb-2">{{ field.label }}</label>
+            
+            <div class="password-wrapper">
+                {{ field }}
+                <button type="button" class="toggle-password-btn" onclick="togglePassword(this)">
+                    <i class="bi bi-eye-fill"></i>
+                </button>
+            </div>
+
+            {% if field.help_text %}
+                <div class="helptext">{{ field.help_text|safe }}</div>
+            {% endif %}
+
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    <div class="text-danger small mt-1"><i class="bi bi-exclamation-triangle"></i> {{ error }}</div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary rounded-pill fw-bold py-2 shadow-sm">
+            Şifreyi Güncelle
+        </button>
+    </div>
+</form>
+
+<script>
+function togglePassword(button) {
+    // Butonun yanındaki inputu bul
+    const input = button.parentElement.querySelector('input');
+    const icon = button.querySelector('i');
+    
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.remove('bi-eye-fill');
+        icon.classList.add('bi-eye-slash-fill');
+    } else {
+        input.type = "password";
+        icon.classList.remove('bi-eye-slash-fill');
+        icon.classList.add('bi-eye-fill');
+    }
+}
+</script>
+{% endblock %}
