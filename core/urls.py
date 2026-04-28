@@ -41,6 +41,11 @@ urlpatterns = [
     path('kvkk/', TemplateView.as_view(template_name='legal/kvkk.html'), name='kvkk'),
     path('membership/', TemplateView.as_view(template_name='legal/membership.html'), name='membership'),
     path('refund/', TemplateView.as_view(template_name='legal/refund.html'), name='refund'),
+    path('mss/', TemplateView.as_view(template_name='legal/mss.html'), name='mss'),
 
+    #Hızlı Erişim
+    path('ozellikler/', TemplateView.as_view(template_name='fastacces/features.html'), name='features'),
+    path('fiyatlandirma/', TemplateView.as_view(template_name='fastacces/prices.html'), name='prices'),
+    path('magazabagla/', TemplateView.as_view(template_name='fastacces/integrations.html'), name='integrations'),
     
 ]

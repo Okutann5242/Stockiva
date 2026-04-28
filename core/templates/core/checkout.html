@@ -1,13 +1,51 @@
 {% extends 'core/base.html' %}
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5 py-5">
     <div class="row justify-content-center">
         <div class="col-md-8 text-center">
-            <h4 class="fw-bold mb-4">Stockiva PRO Güvenli Ödeme</h4>
-            <div id="iyzipay-checkout-form" class="responsive">
-                {{ payment_form|safe }}
+            <div class="mb-4">
+                <i class="bi bi-shield-lock-fill text-primary" style="font-size: 3rem;"></i>
             </div>
+            <h2 class="fw-bold mb-3">Güvenli Ödeme Altyapısı</h2>
+            <p class="text-muted mb-5">Stockiva PRO üyeliğiniz için ödeme sistemi güncelleniyor.</p>
+
+            <div class="card border-0 shadow-sm rounded-4 p-5 bg-light">
+                <div class="card-body">
+                    <h5 class="fw-bold text-dark mb-3">Sistem Güncelleme Çalışması</h5>
+                    <p class="small text-muted mb-4">
+                        Sizlere daha iyi bir hizmet sunabilmek adına ödeme altyapımızda 
+                        <strong>PayTR Ödeme Hizmetleri</strong> geçiş süreci devam etmektedir. 
+                        Kısa bir süre sonra kredi kartı, banka kartı ve taksitli ödeme 
+                        seçeneklerimiz aktif hale gelecektir.
+                    </p>
+                    
+                    <div class="d-flex justify-content-center gap-3 opacity-50 mb-4">
+                        <i class="bi bi-credit-card-2-front fs-3"></i>
+                        <i class="bi bi-hourglass-split fs-3 animate-spin"></i>
+                        <i class="bi bi-shield-check fs-3"></i>
+                    </div>
+
+                    <a href="{% url 'dashboard' %}" class="btn btn-primary rounded-pill px-5 fw-bold">
+                        Panele Geri Dön
+                    </a>
+                </div>
+            </div>
+
+            <p class="mt-4 small text-muted">
+                <i class="bi bi-info-circle me-1"></i> 
+                Onay süreci tamamlandığında kayıtlı e-posta adresinize bilgilendirme yapılacaktır.
+            </p>
         </div>
     </div>
 </div>
+
+<style>
+    /* Kum saati için ufak bir dönme animasyonu, profesyonellik katar */
+    .animate-spin {
+        animation: spin 2s linear infinite;
+    }
+    @keyframes spin {
+        100% { transform: rotate(360deg); }
+    }
+</style>
 {% endblock %}

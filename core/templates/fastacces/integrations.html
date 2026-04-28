@@ -1,0 +1,37 @@
+{% extends 'legal/home_base.html' %}
+{% block title %} Stockiva | Mağaza Bağla {% endblock %}
+
+{% block content %}
+<section class="py-5 bg-white">
+    <div class="container text-center">
+        <h2 class="fw-bold mb-4">Pazaryeri Entegrasyonları</h2>
+        <p class="text-muted mb-5">Tüm satış kanallarınızı tek bir merkezden yönetin.</p>
+        
+        <div class="row justify-content-center g-4">
+            <div class="col-md-5 col-lg-4">
+                <div class="p-5 border rounded-4 bg-white shadow-sm position-relative overflow-hidden">
+                    <div class="badge bg-success position-absolute top-0 end-0 m-3">AKTİF</div>
+                    <h4 class="fw-bold">Shopier</h4>
+                    <p class="text-muted small">Shopier mağazanızı saniyeler içinde bağlayın, stokları senkronize edin.</p>
+                    <a href="{% url 'register' %}" class="btn btn-dark w-100 py-2">Tek Tıkla Kayıt Ol & Bağla</a>
+                </div>
+            </div>
+
+            <div class="col-md-7 col-lg-6">
+                <div class="p-5 border rounded-4 bg-light opacity-50">
+                    <div class="row align-items-center g-4">
+                        <div class="col-6 col-md-3"><h5>Trendyol</h5></div>
+                        <div class="col-6 col-md-3"><h5>Hepsiburada</h5></div>
+                        <div class="col-6 col-md-3"><h5>N11</h5></div>
+                        <div class="col-6 col-md-3"><h5>Shopify</h5></div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="badge bg-secondary">ÇOK YAKINDA</span>
+                        <p class="mb-0 mt-2 small text-muted">API entegrasyonlarımız şu an test aşamasındadır.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

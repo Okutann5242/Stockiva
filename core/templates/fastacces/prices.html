@@ -1,0 +1,80 @@
+{% extends 'legal/home_base.html' %}
+{% block title %} Stockiva | Fiyatlandırma {% endblock %}
+
+{% block content %}
+<style>
+    .pricing-card { transition: all 0.3s ease-in-out; cursor: pointer; }
+    .pricing-card:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 15px 30px rgba(0,0,0,0.1) !important; }
+    .btn-pricing { transition: 0.2s; }
+    .btn-pricing:hover { letter-spacing: 1px; }
+</style>
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill mb-3">Abonelik Planları</span>
+        <h2 class="display-5 fw-bold">Size En Uygun Stockiva Deneyimini Seçin</h2>
+        <p class="text-muted mx-auto" style="max-width: 700px;">
+            İşletmenizin büyüklüğü ne olursa olsun, envanter yönetimini optimize etmek için tasarlanmış esnek fiyatlandırma modellerimizle tanışın.
+        </p>
+    </div>
+
+    <div class="row g-4 justify-content-center">
+        <div class="col-lg-5">
+            <div class="card pricing-card h-100 border-0 shadow-sm p-4">
+                <div class="card-body">
+                    <h4 class="fw-bold">Standart (Ücretsiz)</h4>
+                    <p class="small text-muted">E-ticarete yeni başlayan bireysel satıcılar için ideal başlangıç seviyesi.</p>
+                    <hr>
+                    <div class="my-4">
+                        <span class="display-6 fw-bold">0₺</span><span class="text-muted"> /ay</span>
+                    </div>
+                    <ul class="list-unstyled small lh-lg mb-5">
+                        <li><i class="bi bi-check2-all text-primary me-2"></i> Aylık 100 Ürün Tanımlama Hakkı</li>
+                        <li><i class="bi bi-check2-all text-primary me-2"></i> Temel Varyasyon Yönetimi</li>
+                        <li><i class="bi bi-check2-all text-primary me-2"></i> Tekil Mağaza Dashboard Erişimi</li>
+                        <li><i class="bi bi-check2-all text-primary me-2"></i> Standart Güvenlik Protokolleri</li>
+                        <li class="text-decoration-line-through text-muted"><i class="bi bi-x me-2"></i> Gelişmiş AI Analitiği</li>
+                    </ul>
+                    <a href="{% url 'register' %}" class="btn btn-outline-primary btn-pricing w-100 py-3">Ücretsiz Başla</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="card pricing-card h-100 border-primary shadow-lg p-4" style="border-width: 2px;">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h4 class="fw-bold mb-0">Profesyonel (Pro)</h4>
+                        <span class="badge bg-primary">ÖNERİLEN</span>
+                    </div>
+                    <p class="small text-muted">Operasyonel mükemmellik arayan profesyonel ekipler için tam kapsamlı çözüm.</p>
+                    <hr>
+                    <div class="my-4">
+                        <span class="display-6 fw-bold">199₺</span><span class="text-muted"> /ay</span>
+                    </div>
+                    <ul class="list-unstyled small lh-lg mb-5">
+                        <li><i class="bi bi-stars text-primary me-2"></i> <strong>Sınırsız</strong> Ürün ve Varyasyon</li>
+                        <li><i class="bi bi-stars text-primary me-2"></i> Akıllı Karar Destek Mekanizması (AI)</li>
+                        <li><i class="bi bi-stars text-primary me-2"></i> Kritik Stok Eşiği ve Anlık Bildirim</li>
+                        <li><i class="bi bi-stars text-primary me-2"></i> Barkod & QR Kod Üretim Merkezi</li>
+                        <li><i class="bi bi-stars text-primary me-2"></i> VIP Teknik Destek</li>
+                    </ul>
+                    <a href="{% url 'login' %}" class="btn btn-primary btn-pricing w-100 py-3 shadow">Pro Planı Başlat</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-5 justify-content-center">
+    <div class="col-lg-8">
+        <div class="p-4 bg-light rounded-4 border border-dashed text-center">
+            <h6 class="fw-bold text-dark"><i class="bi bi-info-circle text-primary me-2"></i> Satın Alma Hakkında Bilgilendirme</h6>
+            <p class="small text-muted mb-0">
+                Ödemeniz tamamlandığı anda <strong>Pro Paket</strong> özellikleriniz hesabınıza anlık olarak tanımlanır. 
+                Herhangi bir fiziksel gönderim veya bekleme süresi yoktur. 
+                İşlemleriniz 256-bit SSL güvencesiyle korunmaktadır.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

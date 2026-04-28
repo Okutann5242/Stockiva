@@ -478,82 +478,11 @@ Türkçe, net ve kısa yaz.
 
 @login_required
 def checkout(request):
-    """İyzico ödeme formunu başlatır."""
-    options = {
-        'api_key': settings.IYZICO_API_KEY,
-        'secret_key': settings.IYZICO_SECRET_KEY,
-        'base_url': settings.IYZICO_BASE_URL,
-    }
-
-    # DÜZELTME: callbackUrl artık settings.BASE_URL'den geliyor (hardcoded localhost yok)
-    callback_url = request.build_absolute_uri(reverse('iyzico_callback'))
-
-    payment_request = {
-        'locale': 'tr',
-        'conversationId': str(request.user.id),
-        'price': '199.0',
-        'paidPrice': '199.0',
-        'currency': 'TRY',
-        'basketId': f'STOCKIVA-PRO-{request.user.id}',
-        'paymentGroup': 'PRODUCT',
-        'callbackUrl': callback_url,
-        'buyer': {
-            'id': str(request.user.id),
-            'name': request.user.first_name or request.user.username,
-            'surname': request.user.last_name or '-',
-            'email': request.user.email,
-            'identityNumber': '11111111111',  # TODO: Kullanıcıdan alınacak
-            'city': 'Istanbul',
-            'country': 'Turkey',
-            'registrationAddress': 'Türkiye',
-            'zipCode': '34000',
-        },
-        'shippingAddress': {
-            'contactName': request.user.username,
-            'city': 'Istanbul',
-            'country': 'Turkey',
-            'address': 'Türkiye',
-            'zipCode': '34000',
-        },
-        'billingAddress': {
-            'contactName': request.user.username,
-            'city': 'Istanbul',
-            'country': 'Turkey',
-            'address': 'Türkiye',
-            'zipCode': '34000',
-        },
-        'basketItems': [
-            {
-                'id': 'STOCKIVA-PRO',
-                'name': 'Stockiva PRO Üyelik (30 Gün)',
-                'category1': 'Yazılım',
-                'itemType': 'VIRTUAL',
-                'price': '199.0',
-            }
-        ],
-    }
-
-    try:
-        checkout_form = iyzipay.CheckoutFormInitialize().create(payment_request, options)
-        content_json = json.loads(checkout_form.read().decode('utf-8'))
-
-        if content_json.get('status') == 'success':
-            profile = request.user.profile
-            profile.iyzico_token = content_json.get('token')
-            profile.save(update_fields=['iyzico_token'])
-            return render(request, 'core/checkout.html', {
-                'payment_form': content_json.get('checkoutFormContent')
-            })
-
-        error_msg = content_json.get('errorMessage', 'Bilinmeyen hata')
-        logger.error(f'İyzico checkout hatası (user={request.user.id}): {error_msg}')
-        messages.error(request, f'Ödeme başlatılamadı: {error_msg}')
-        return redirect('settings')
-
-    except Exception as e:
-        logger.error(f'İyzico checkout exception (user={request.user.id}): {e}')
-        messages.error(request, 'Ödeme sistemiyle bağlantı kurulamadı. Lütfen tekrar dene.')
-        return redirect('settings')
+    """
+    PayTR başvurusu sürecinde ödeme sayfasını güvenli moda alıyoruz.
+    Sistem bozulmaz, sadece kullanıcıya 'Güncelleniyor' bilgisi verir.
+    """
+    return render(request, 'core/checkout.html')
 
 
 @csrf_exempt

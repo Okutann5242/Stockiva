@@ -32,7 +32,6 @@
             overflow-x: hidden;
         }
 
-        /* 1. BRAND & NAV */
         .navbar { background: transparent; padding: 25px 0; z-index: 100; }
         .brand-logo {
             background: var(--primary-blue); color: white;
@@ -41,7 +40,6 @@
         }
         .brand-text { font-weight: 800; font-size: 1.4rem; letter-spacing: -1px; }
 
-        /* 2. HERO SLIDER */
         .hero-section { height: 90vh; display: flex; align-items: center; position: relative; }
         .hero-slider-wrap { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; overflow: hidden; }
         .bg-slide {
@@ -62,7 +60,6 @@
 
         .main-title { font-weight: 800; font-size: clamp(3rem, 7vw, 6rem); letter-spacing: -4px; line-height: 0.95; }
 
-        /* 3. ISTATISTIK BANDI */
         .stats-band {
             background: var(--primary-blue); color: white; padding: 60px 0;
             transform: skewY(-1deg); margin-top: -50px; position: relative; z-index: 10;
@@ -70,15 +67,6 @@
         .stats-band .container { transform: skewY(1deg); }
         .stat-item h2 { font-weight: 800; font-size: 3rem; margin-bottom: 5px; }
 
-        /* 4. PREMIUM KARTLAR */
-        .premium-card {
-            background: var(--glass-card); backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 35px;
-            padding: 50px 40px; transition: all 0.4s ease; height: 100%;
-        }
-        .premium-card:hover { transform: translateY(-10px); border-color: var(--primary-blue); }
-
-        /* 5. NASIL ÇALIŞIR */
         .step-box { position: relative; padding-left: 50px; margin-bottom: 40px; }
         .step-num { 
             position: absolute; left: 0; top: 0; width: 35px; height: 35px; 
@@ -86,18 +74,23 @@
             display: flex; align-items: center; justify-content: center; font-weight: 800;
         }
 
-        /* 6. JİLET FOOTER */
         .footer { background: var(--footer-bg); padding: 80px 0 30px 0; margin-top: 100px; border-top: 1px solid rgba(0,0,0,0.05); }
         .footer-title { font-weight: 800; font-size: 1.1rem; margin-bottom: 25px; color: var(--primary-blue); text-transform: uppercase; letter-spacing: 1px; }
         .footer-link { color: var(--text-main); text-decoration: none; opacity: 0.6; transition: 0.3s; display: block; margin-bottom: 12px; font-size: 0.9rem; }
         .footer-link:hover { opacity: 1; color: var(--primary-blue); padding-left: 5px; }
 
         #theme-btn { width: 45px; height: 45px; border-radius: 12px; border: 1px solid rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-        .grayscale-logos img { filter: grayscale(100%); opacity: 0.5; transition: 0.3s; }
-        .grayscale-logos img:hover { filter: grayscale(0%); opacity: 1; }
+        
+        .payment-logos img { 
+            filter: none !important; 
+            opacity: 1 !important; 
+            display: inline-block !important;
+            margin-right: 15px;
+            vertical-align: middle;
+        }
     </style>
 </head>
-<body class="">
+<body>
 
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container">
@@ -123,20 +116,16 @@
             <div class="bg-slide slide-2"></div>
             <div class="bg-slide slide-3"></div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-10">
-                    <h1 class="main-title mb-4">Dükkanını <br><span style="color: var(--primary-blue);">Veriyle</span> Ateşle.</h1>
-                    <p class="fs-4 fw-light opacity-75 mb-5" style="max-width: 650px;">E-ticaretin karmaşasını Gemini AI ile çözün. Shopier'den gelen her siparişi stratejik birer hamleye dönüştürün.</p>
-                    <a href="{% url 'register' %}" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold">Şimdi Entegre Et <i class="bi bi-arrow-right ms-2"></i></a>
-                </div>
-            </div>
+        <div class="container text-start">
+            <h1 class="main-title mb-4">Dükkanını <br><span style="color: var(--primary-blue);">Veriyle</span> Ateşle.</h1>
+            <p class="fs-4 fw-light opacity-75 mb-5" style="max-width: 650px;">E-ticaretin karmaşasını Gemini AI ile çözün. Shopier'den gelen her siparişi stratejik birer hamleye dönüştürün.</p>
+            <a href="{% url 'register' %}" class="btn btn-primary btn-lg rounded-pill px-5 py-3 fw-bold">Şimdi Entegre Et <i class="bi bi-arrow-right ms-2"></i></a>
         </div>
     </section>
 
     <section class="stats-band">
-        <div class="container">
-            <div class="row text-center g-4">
+        <div class="container text-center">
+            <div class="row g-4">
                 <div class="col-md-4 stat-item"><h2>%40+</h2><p class="mb-0 fw-bold opacity-75">Ortalama Kâr Artışı</p></div>
                 <div class="col-md-4 stat-item"><h2>2000+</h2><p class="mb-0 fw-bold opacity-75">Analiz Edilen Ürün</p></div>
                 <div class="col-md-4 stat-item"><h2>< 1sn</h2><p class="mb-0 fw-bold opacity-75">Veri Senkronizasyonu</p></div>
@@ -147,7 +136,7 @@
     <section class="container py-5 mt-5">
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
-                <h2 class="display-4 fw-extrabold mb-5">Karmaşadan Kurtulun,<br><span class="text-primary">3 Adımda</span> Başlayın.</h2>
+                <h2 class="display-4 fw-bold mb-5">Karmaşadan Kurtulun,<br><span class="text-primary">3 Adımda</span> Başlayın.</h2>
                 <div class="step-box">
                     <div class="step-num">1</div>
                     <h5 class="fw-bold">Mağazanı Bağla</h5>
@@ -156,31 +145,30 @@
                 <div class="step-box">
                     <div class="step-num">2</div>
                     <h5 class="fw-bold">AI Analizini Başlat</h5>
-                    <p class="opacity-75">Gemini 1.5 motoru, her ürünün maliyetini, kargosunu ve komisyonunu hesaplayıp sana tavsiye versin.</p>
+                    <p class="opacity-75">Gemini 1.5 motoru, her ürünün maliyetini hesaplayıp sana tavsiye versin.</p>
                 </div>
                 <div class="step-box">
                     <div class="step-num">3</div>
                     <h5 class="fw-bold">Kârını Katla</h5>
-                    <p class="opacity-75">Düşük marjlı ürünleri tespit et, stok hızına göre sipariş ver ve finansal özgürlüğün tadını çıkar.</p>
+                    <p class="opacity-75">Düşük marjlı ürünleri tespit et, stok hızına göre sipariş ver.</p>
                 </div>
-            </div>
             </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container">
-            <div class="row g-4 mb-5">
+            <div class="row g-4 mb-5 text-start">
                 <div class="col-lg-4">
                     <div class="footer-title">STOCKIVA</div>
-                    <p class="opacity-50 small pe-lg-5">E-ticaret dükkan sahipleri için geliştirilmiş, yapay zeka destekli ilk yerli karar destek mekanizması. Karmaşayı bitirir, kârı getirir.</p>
-                    <div class="grayscale-logos d-flex gap-3 mt-4">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" height="15" alt="Visa">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" height="22" alt="Mastercard">
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Troy_Logo.svg/1200px-Troy_Logo.svg.png" height="15" alt="Troy">
+                    <p class="opacity-50 small pe-lg-5">E-ticaret dükkan sahipleri için geliştirilmiş, yapay zeka destekli karar destek mekanizması.</p>
+                    <div class="payment-logos mt-4">
+                        <img src="data:image/png;base64,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" height="15" alt="Visa">
+                        <img src="https://e7.pngegg.com/pngimages/910/492/png-clipart-mastercard-logo-credit-card-visa-brand-mastercard-text-label-thumbnail.png" height="22" alt="Mastercard">
+                        <img src="data:image/png;base64,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" height="18" alt="Troy">
                     </div>
                 </div>
-                <div class="col-lg-2 col-6">
+                <div class="col-lg-3 col-6">
                     <div class="footer-title">Kurumsal</div>
                     <a href="{% url 'about' %}" class="footer-link">Hakkımızda</a>
                     <a href="{% url 'terms' %}" class="footer-link">Kullanım Şartları</a>
@@ -188,30 +176,45 @@
                     <a href="{% url 'kvkk' %}" class="footer-link">KVKK Metni</a>
                     <a href="{% url 'membership' %}" class="footer-link">Üyelik Sözleşmesi</a>
                     <a href="{% url 'refund' %}" class="footer-link">İptal ve İade Koşulları</a>
+                    <a href="{% url 'mss' %}" class="footer-link">Mesafeli Satış Sözleşmesi</a>
                 </div>
                 <div class="col-lg-2 col-6">
                     <div class="footer-title">Hızlı Erişim</div>
-                    <a href="#" class="footer-link">Özellikler</a>
-                    <a href="#" class="footer-link">Fiyatlandırma</a>
-                    <a href="#" class="footer-link">Mağaza Bağla</a>
-                    <a href="#" class="footer-link">AI Motoru</a>
+                    <a href="{% url 'features' %}" class="footer-link">Özellikler</a>
+                    <a href="{% url 'prices' %}" class="footer-link">Fiyatlandırma</a>
+                    <a href="{% url 'integrations' %}" class="footer-link">Mağaza Bağla</a>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-3">
                     <div class="footer-title">İletişim & Destek</div>
-                    <p class="small opacity-50 mb-2"><i class="bi bi-geo-alt-fill me-2 text-primary"></i> Gümüşhane, Türkiye</p>
-                    <p class="small opacity-50 mb-2"><i class="bi bi-envelope-at-fill me-2 text-primary"></i> stockivatech@gmail.com</p>
-                    <div class="d-flex gap-3 mt-4">
-                        <a href="#" class="footer-link fs-5"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="footer-link fs-5"><i class="bi bi-twitter-x"></i></a>
-                        <a href="#" class="footer-link fs-5"><i class="bi bi-linkedin"></i></a>
-                    </div>
+                    <p class="small opacity-50"><i class="bi bi-geo-alt-fill text-primary"></i> Gümüşhane, Türkiye</p>
+                    <p class="small opacity-50 mb-0"><i class="bi bi-envelope-at-fill text-primary"></i> stockivatech@gmail.com</p>
                 </div>
             </div>
             <div class="text-center pt-4 border-top border-secondary border-opacity-10">
-                <p class="small opacity-40 mb-0">© 2026 Stockiva Analytics. Berat Okutan Girişimidir. Tüm Hakları Saklıdır.</p>
+                <p class="small opacity-40 mb-0">© 2026 Stockiva Analytics. Berat Okutan Girişimidir.</p>
             </div>
         </div>
     </footer>
+
+    <div id="ai-btn" onclick="toggleChat()" style="position: fixed; bottom: 30px; right: 30px; width: 60px; height: 60px; background: #007AFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 9999; box-shadow: 0 5px 15px rgba(0,122,255,0.3);">
+        <i class="bi bi-chat-dots-fill" style="color: white; font-size: 1.5rem;"></i>
+    </div>
+
+    <div id="ai-box" style="position: fixed; bottom: 100px; right: 30px; width: 330px; height: 450px; background: white; border-radius: 20px; display: none; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 9999; border: 1px solid #eee; overflow: hidden;">
+        <div style="background: #007AFF; color: white; padding: 15px; font-weight: 800; display: flex; justify-content: space-between;">
+            <span>AI Destek</span>
+            <i class="bi bi-x-lg" onclick="toggleChat()" style="cursor: pointer;"></i>
+        </div>
+        <div id="ai-content" style="flex: 1; padding: 15px; overflow-y: auto; background: #f9f9f9; display: flex; flex-direction: column; gap: 10px;">
+            <div style="background: #eee; padding: 10px; border-radius: 12px; align-self: flex-start; font-size: 0.85rem;">Merhaba! Size nasıl yardımcı olabilirim?</div>
+        </div>
+        <div style="padding: 10px; border-top: 1px solid #eee;">
+            <div class="input-group">
+                <input type="text" id="ai-input" class="form-control form-control-sm rounded-pill px-3" placeholder="Yazın..." onkeypress="if(event.key==='Enter') askAI()">
+                <button class="btn btn-primary btn-sm rounded-circle ms-2" onclick="askAI()" style="width:35px; height:35px;"><i class="bi bi-send"></i></button>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -219,60 +222,42 @@
             const body = document.body;
             const icon = document.getElementById('theme-icon');
             body.classList.toggle('dark-mode');
-            if (body.classList.contains('dark-mode')) {
+            if(body.classList.contains('dark-mode')) {
                 icon.classList.replace('bi-moon-stars-fill', 'bi-sun-fill');
             } else {
                 icon.classList.replace('bi-sun-fill', 'bi-moon-stars-fill');
             }
         }
-    </script>
-    <div id="ai-btn" onclick="toggleChat()" style="position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px; background: #007AFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 9999; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
-    <i class="bi bi-robot" style="color: white; font-size: 1.5rem;"></i>
-</div>
-
-<div id="ai-box" style="position: fixed; bottom: 90px; right: 20px; width: 320px; height: 400px; background: white; border-radius: 15px; display: none; flex-direction: column; box-shadow: 0 10px 30px rgba(0,0,0,0.1); z-index: 9999; border: 1px solid #ddd; overflow: hidden;">
-    <div style="background: #007AFF; color: white; padding: 15px; font-weight: bold;">Stockiva AI Destek</div>
-    <div id="ai-content" style="flex: 1; padding: 15px; overflow-y: auto; font-size: 0.85rem; display: flex; flex-direction: column; gap: 10px; background: #f8f9fa;">
-        <div style="background: #eee; padding: 8px; border-radius: 10px; align-self: flex-start;">Selam! Ben Stockiva Bot. Nasıl yardımcı olabilirim?</div>
-    </div>
-    <div style="padding: 10px; border-top: 1px solid #ddd;">
-        <div class="input-group">
-            <input type="text" id="ai-input" class="form-control form-control-sm" placeholder="Sorunuz...">
-            <button class="btn btn-primary btn-sm" onclick="askAI()"><i class="bi bi-send"></i></button>
-        </div>
-    </div>
-</div>
-
-<script>
-    function toggleChat() {
-        const box = document.getElementById('ai-box');
-        box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'flex' : 'none';
-    }
-    function askAI() {
-        const input = document.getElementById('ai-input');
-        const content = document.getElementById('ai-content');
-        if (!input.value.trim()) return;
-
-        const userMsg = document.createElement('div');
-        userMsg.style = "background: #007AFF; color: white; padding: 8px; border-radius: 10px; align-self: flex-end;";
-        userMsg.innerText = input.value;
-        content.appendChild(userMsg);
-
-        fetch('/contact-submit-ajax/', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'},
-            body: JSON.stringify({message: input.value})
-        })
-        .then(res => res.json())
-        .then(data => {
-            const aiMsg = document.createElement('div');
-            aiMsg.style = "background: #eee; padding: 8px; border-radius: 10px; align-self: flex-start;";
-            aiMsg.innerText = data.ai_answer;
-            content.appendChild(aiMsg);
+        function toggleChat() {
+            const box = document.getElementById('ai-box');
+            box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'flex' : 'none';
+        }
+        function askAI() {
+            const input = document.getElementById('ai-input');
+            const content = document.getElementById('ai-content');
+            if (!input.value.trim()) return;
+            const userMsg = document.createElement('div');
+            userMsg.style = "background: #007AFF; color: white; padding: 10px; border-radius: 12px; align-self: flex-end; font-size: 0.85rem;";
+            userMsg.innerText = input.value;
+            content.appendChild(userMsg);
+            const val = input.value;
+            input.value = '';
             content.scrollTop = content.scrollHeight;
-        });
-        input.value = '';
-    }
-</script>
+
+            fetch('/contact-submit-ajax/', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'},
+                body: JSON.stringify({message: val})
+            })
+            .then(res => res.json())
+            .then(data => {
+                const aiMsg = document.createElement('div');
+                aiMsg.style = "background: white; border: 1px solid #eee; padding: 10px; border-radius: 12px; align-self: flex-start; font-size: 0.85rem;";
+                aiMsg.innerText = data.ai_answer;
+                content.appendChild(aiMsg);
+                content.scrollTop = content.scrollHeight;
+            });
+        }
+    </script>
 </body>
 </html>
